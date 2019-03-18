@@ -1,0 +1,419 @@
+<html>
+<head>
+<!-- // インラインブロックのサンプル -->
+<script>
+
+
+// それぞれのプレイヤーのフラグ
+const person_flg = 1
+const computer_flg = -1
+
+
+// 終了判定のフラグ
+var end_flg = 0
+
+// ターンの管理フラグ
+var turn = 1
+
+
+// ボードの作成と初期化
+var board = new Array(9).fill(null);
+
+
+// nullに一致する要素のindexを抽出。
+var extra = function(array){
+  var idx = array.indexOf(null);
+  Ext_array = [];
+  while (idx != -1){
+    Ext_array.push(idx);
+    idx = array.indexOf(null, idx + 1);
+  }
+  return Ext_array
+}
+
+var available_area = extra(board)
+
+
+
+
+
+var judge = function(board){
+  winner = "Nobody"
+  judge_winner = []
+
+  if(board[0] != null && board[0] == board[1] && board[1] == board[2]){
+    end_flg = 1
+    winner = board[0]
+    judge_winner.push(end_flg)
+    judge_winner.push(winner)
+    return end_flg
+  }
+
+
+  else if(board[3] != null && board[3] == board[4] && board[4] == board[5]){
+    end_flg = 1
+    winner = board[0]
+    judge_winner.push(end_flg)
+    judge_winner.push(winner)
+    return end_flg
+  }
+
+
+  else if(board[6] != null && board[6] == board[7] && board[7] == board[8]){
+    end_flg = 1
+    winner = board[0]
+    judge_winner.push(end_flg)
+    judge_winner.push(winner)
+    return end_flg
+  }
+
+
+  else if(board[0] != null && board[0] == board[3] && board[3] == board[6]){
+    end_flg = 1
+    winner = board[0]
+    judge_winner.push(end_flg)
+    judge_winner.push(winner)
+    return end_flg
+  }
+
+
+  else if(board[1] != null && board[1] == board[4] && board[4] == board[6]){
+    end_flg = 1
+    winner = board[0]
+    judge_winner.push(end_flg)
+    judge_winner.push(winner)
+    return end_flg
+  }
+
+
+  else if(board[2] != null && board[2] == board[5] && board[5] == board[8]){
+    end_flg = 1
+    winner = board[0]
+    judge_winner.push(end_flg)
+    judge_winner.push(winner)
+    return end_flg
+  }
+
+  else if(board[0] != null && board[0] == board[4] && board[4] == board[8]){
+    end_flg = 1
+    winner = board[0]
+    judge_winner.push(end_flg)
+    judge_winner.push(winner)
+    return end_flg
+  }
+
+  else if(board[2] != null && board[2] == board[4] && board[4] == board[6]){
+    end_flg = 1
+    winner = board[0]
+    judge_winner.push(end_flg)
+    judge_winner.push(winner)
+    return end_flg
+
+  }
+
+  else{
+    judge_winner.push(end_flg)
+    judge_winner.push(winner)
+    return judge_winner
+  }
+
+
+}  // judgeの終了
+
+
+
+var tar = null
+
+window.onload = function(){
+
+
+  console.log("loaded")
+  var available_area = extra(board)
+  console.log(board)
+  console.log(available_area)
+
+  var parent_main = document.getElementById("parent_main")
+  var parent_1 = document.getElementById("parent1")
+  var parent_2 = document.getElementById("parent2")
+  var parent_3 = document.getElementById("parent3")
+  console.log("イベントリスナーのテスト")
+  console.log(parent_1)
+  // console.log(parent_2)
+  // console.log(parent_3)
+
+  var computer = function(available_list){
+    console.log("computerの中の処理開始")
+
+    while(true){
+    var rand = Math.floor(Math.random()*9)
+    console.log("computerの選んだ数字:"+"%s",rand)
+    console.log(available_area)
+    console.log(available_area.indexOf(rand) >= 0)
+
+
+    if (available_list.indexOf(rand) >= 0){
+    console.log("AIが更新")
+    console.log(rand + "乱数です");
+    board[rand] = computer_flg
+    console.log(board)
+    board = board   // 盤面の更新
+    console.log("更新された盤面")
+    console.log(board)
+    available_area = extra(board)  // 石を置ける場所の更新
+    console.log(available_area)
+    document.getElementById('image'+ rand).src = "whitestone.svg"
+
+    turn += 1
+    console.log("computerが置いたあとのturn:"+"%s",turn)
+    break ; // 乱数生成してそれが置けたのであればbreakする。
+  }  //if文の終了
+} // while分の終了
+}  //computerの終了
+
+
+
+
+    var play_game = function(first_player){
+
+    player1 = "You"
+    player2 = "AI"
+    console.log(player1)
+
+    // player_count = turn;
+    console.log("for文回す前のturnの値:"+"%s",turn)
+
+for(i=0;i<=9;i++){
+
+(function(){
+
+   if(turn %2 == 0){
+    　　(function(){
+        parent_main.onclick = function(e){
+          click_area = e.target
+          console.log(click_area)
+          click_area_id = Number(click_area.id)
+          console.log(click_area_id)
+
+
+
+          if(click_area_id >= 0 && click_area_id <= 2){
+            console.log("cell" + "%s" + "をクリックしました",click_area.id)
+            console.log(available_area.indexOf(click_area_id) >= 0)
+               if (available_area.indexOf(click_area_id) >= 0){
+                 console.log("人間が更新します！")
+                 board[click_area_id] = person_flg
+                 click_area.children[0].src = "blackstone.svg" ;
+                 console.log("人間が更新しました。")
+                 turn += 1
+                 console.log("turnの値は" + "%s"+"になっている。",turn)
+                 console.log(board)
+                 board = board   // 盤面の更新
+                 available_area = extra(board)  // 置ける場所の更新
+                 console.log(available_area)
+                 }
+               else if(available_area.indexOf(click_area_id) == -1){
+                  console.log(available_area.indexOf(click_area_id) == -1)
+                  console.log("石は置けない")
+                }
+          }
+
+
+          else if(click_area_id >= 3 && click_area_id <= 5){
+            console.log("cell" + "%s" + "をクリックしました",click_area.id)
+            console.log(available_area.indexOf(click_area_id) >= 0)
+               if (available_area.indexOf(click_area_id) >= 0){
+                 console.log("人間が更新します！")
+                 board[click_area_id] = person_flg
+                 click_area.children[0].src = "blackstone.svg" ;
+                 console.log("人間が更新しました。")
+                 turn += 1
+                 console.log("turnの値は" + "%s"+"になっている。",turn)
+                 console.log(board)
+                 board = board   // 盤面の更新
+                 available_area = extra(board)  // 置ける場所の更新
+                 console.log(available_area)
+                 }
+               else if(available_area.indexOf(click_area_id) == -1){
+                  console.log("石は置けない")
+                }
+          }
+
+
+
+          else if(click_area_id >= 6 && click_area_id <= 9 ){
+            console.log("cell" + "%s" + "をクリックしました",click_area.id)
+            console.log(available_area.indexOf(click_area_id) >= 0)
+               if (available_area.indexOf(click_area_id) >= 0){
+                 console.log("人間が更新します！")
+                 board[click_area_id] = person_flg
+                 click_area.children[0].src = "blackstone.svg" ;
+                 console.log("人間が更新しました。")
+                 turn += 1
+                 console.log("turnの値は" + "%s"+"になっている。",turn)
+                 console.log(board)
+                 board = board   // 盤面の更新
+                 available_area = extra(board)  // 置ける場所の更新
+                 console.log(available_area)
+                 }
+               else if(available_area.indexOf(click_area_id) == -1){
+                  console.log("石は置けない")
+                }
+          }
+
+
+      }    // parent_main.onclickの終了
+
+      }());
+
+  }  // if文の終了
+
+      else if (turn%2 == 1){
+        console.log(turn)
+        computer(available_area)
+      }
+
+}())
+
+  }  //for文の終了
+
+}   //playgame()の終了
+
+
+
+ play_game(1)
+
+
+}  /// windowオブジェクトの終了
+
+
+
+
+
+</script>
+
+<style>
+
+#header{
+  height: 100px;
+  font-family:'arial black'."arial";
+  text-align: center;
+  font-size: 40px;
+
+}
+
+
+#title {
+
+}
+
+.stone{
+  position: absolute;
+  /* border:solid;
+  border-color:yellow; */
+
+}
+
+.lattice{
+  display: inline-block;
+  background-color: lightblue;
+  border-radius: 20px;
+  width:100px;
+  height:100px;
+  margin:20px 20px;
+  text-align:center;
+
+}
+
+img{
+  display: block;
+  position: absolute;
+  margin : 5px 5px 10px 10px ;
+}
+
+
+.parent_main{
+  text-align:center;
+}
+
+
+.parents{
+text-align:center;
+
+/* background-color:black; */
+/* width: 600px; */
+height:150px;
+/* border:solid; */
+/* border-color:red; */
+}
+</style>
+
+</head>
+<body>
+
+<div id=header>
+<p id=title>三目並べ！</p>
+</div>
+
+
+<div id=explanation>
+人間側が黒石、コンピューター側が白石です。</br>
+ターンの受け渡し処理がまだうまく処理できていません</br>
+勝敗の判定も関数だけつくりましたが、フローに組み込めておりません</br>
+</divv>
+
+
+<div id="parent_main">
+
+<div id=parent1 class=parents>
+<div  class=lattice id="0"  >
+<img id=image0 class=stone src=""></img>
+</div>
+
+<div class=lattice id="1" >
+<img id=image1 class=stone src="" ></img>
+</div>
+
+<div class=lattice id="2" >
+<img id=image2 class=stone src="" ></img>
+</div>
+</div>
+<!-- 一行目終わり -->
+
+
+<!-- 二行目 -->
+<div id=parent2 class=parents>
+<div class=lattice id="3" >
+<img id=image3 class=stone src="" ></img>
+</div>
+
+<div class=lattice id="4" >
+<img id=image4 class=stone src="" ></img>
+</div>
+
+<div class=lattice id="5" >
+<img id=image5 class=stone src="" ></img>
+</div>
+</div>
+<!-- 二行目終わり -->
+
+
+<!-- 三行目 -->
+<div id=parent3 class=parents>
+<div class=lattice id="6">
+<img id=image6 class=stone src=""></img>
+</div>
+
+<div class=lattice id="7" >
+<img id=image7 class=stone src="" ></img>
+</div>
+
+<div class=lattice id="8" >
+<img id=image8 class=stone src="" ></img>
+</div>
+</div>
+
+<!-- 三行目終わり -->
+</div>　　<!-- 盤面終わり -->
+
+</body>
+</html>
