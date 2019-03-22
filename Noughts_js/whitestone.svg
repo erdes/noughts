@@ -1,6 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg">
+<svg width="80px" height="80px" xmlns="http://www.w3.org/2000/svg">
 
-<circle cx="40" cy="40" r="40" style="white; fill:white;"/>
-
-
+<circle cx="40" cy="40" r="40" style="stroke:none; fill:white;"/>
+<text x="18" y="53" style="font-size:40px;stroke:none">
+  AI
+</text>
 </svg>
